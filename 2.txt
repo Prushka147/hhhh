@@ -1,0 +1,94 @@
+public class Airplane {
+    private String brand;           // Марка самолета
+    private double fuelTankVolume;  // Объем топливного бака (в литрах)
+    private double maxFlightRange;   // Максимальная дальность полета (в километрах)
+
+    // Конструктор
+    public Airplane(String brand, double fuelTankVolume, double maxFlightRange) {
+        this.brand = brand;
+        this.fuelTankVolume = fuelTankVolume;
+        this.maxFlightRange = maxFlightRange;
+    }
+
+    // Геттеры и сеттеры
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public double getFuelTankVolume() {
+        return fuelTankVolume;
+    }
+
+    public void setFuelTankVolume(double fuelTankVolume) {
+        this.fuelTankVolume = fuelTankVolume;
+    }
+
+    public double getMaxFlightRange() {
+        return maxFlightRange;
+    }
+
+    public void setMaxFlightRange(double maxFlightRange) {
+        this.maxFlightRange = maxFlightRange;
+    }
+
+    // Метод вывода информации на экран
+    public void displayInfo() {
+        System.out.println("Марка: " + brand);
+        System.out.println("Объем топливного бака: " + fuelTankVolume + " литров");
+        System.out.println("Максимальная дальность полета: " + maxFlightRange + " км");
+    }
+}
+### Класс PassengerAirplane
+public class PassengerAirplane extends Airplane {
+    private int passengerSeats;  // Количество посадочных мест
+
+    // Конструктор
+    public PassengerAirplane(String brand, double fuelTankVolume, double maxFlightRange, int passengerSeats) {
+        super(brand, fuelTankVolume, maxFlightRange);
+        this.passengerSeats = passengerSeats;
+    }
+
+    // Геттеры и сеттеры
+    public int getPassengerSeats() {
+        return passengerSeats;
+    }
+
+    public void setPassengerSeats(int passengerSeats) {
+        this.passengerSeats = passengerSeats;
+    }
+
+    // Переопределяем метод вывода информации
+    @Override
+    public void displayInfo() {
+        super.displayInfo();  // Выводим информацию из базового класса
+        System.out.println("Количество посадочных мест: " + passengerSeats);
+    }
+
+    // Метод переназначения (например, изменение количества мест)
+    public void reassignSeats(int newSeats) {
+        setPassengerSeats(newSeats);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Создание экземпляра класса Airplane
+        Airplane airplane = new Airplane("Boeing 737", 26000, 6200);
+        airplane.displayInfo();
+        
+        System.out.println("\n---\n");
+
+        // Создание экземпляра класса PassengerAirplane
+        PassengerAirplane passengerAirplane = new PassengerAirplane("Airbus A320", 24000, 5500, 180);
+        passengerAirplane.displayInfo();
+
+        // Переназначение количества мест
+        passengerAirplane.reassignSeats(200);
+        System.out.println("\nПосле переназначения мест:");
+        passengerAirplane.displayInfo();
+    }
+}

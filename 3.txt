@@ -1,0 +1,139 @@
+public interface Pair<T> {
+    T add(T other);
+    T subtract(T other);
+    T multiply(T other);
+    T divide(T other);
+}
+
+
+public class Money implements Pair<Money> {
+    private double amount;  // Сумма денег в долларах
+
+    // Конструктор
+    public Money(double amount) {
+        this.amount = amount;
+    }
+
+    // Геттер
+    public double getAmount() {
+        return amount;
+    }
+
+    @Override
+    public Money add(Money other) {
+        return new Money(this.amount + other.amount);
+    }
+
+    @Override
+    public Money subtract(Money other) {
+        return new Money(this.amount - other.amount);
+    }
+
+    @Override
+    public Money multiply(Money other) {
+        throw new UnsupportedOperationException("Умножение денег не имеет смысла");
+    }
+
+    @Override
+    public Money divide(Money other) {
+        if (other.amount == 0) {
+            throw new ArithmeticException("Деление на ноль");
+        }
+        return new Money(this.amount / other.amount);
+    }
+
+    @Override
+    public String toString() {
+        return "$" + amount;
+    }
+}
+
+public class Fraction implements Pair<Fraction> {
+    private int numerator;   // Числитель
+    private int denominator; // Знаменатель
+
+    // Конструктор
+    public Fraction(int numerator, int denominator) {
+        if (denominator == 0) {
+            throw new IllegalArgumentException("Знаменатель не может быть нулевым");
+        }
+        this.numerator = numerator;
+        this.denominator = denominator;
+        simplify();
+    }
+
+    // Упрощение дроби
+    private void simplify() {
+        int gcd = gcd(numerator, denominator);
+        numerator /= gcd;
+        denominator /= gcd;
+    }
+
+    private int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+
+    @Override
+    public Fraction add(Fraction other) {
+        int newNumerator = this.numerator * other.denominator + other.numerator * this.denominator;
+        int newDenominator = this.denominator * other.denominator;
+        return new Fraction(newNumerator, newDenominator);
+    }
+
+    @Override
+    public Fraction subtract(Fraction other) {
+        int newNumerator = this.numerator * other.denominator - other.numerator * this.denominator;
+        int newDenominator = this.denominator * other.denominator;
+        return new Fraction(newNumerator, newDenominator);
+    }
+
+    @Override
+    public Fraction multiply(Fraction other) {
+        int newNumerator = this.numerator * other.numerator;
+        int newDenominator = this.denominator * other.denominator;
+        return new Fraction(newNumerator, newDenominator);
+    }
+
+    @Override
+    public Fraction divide(Fraction other) {
+        if (other.numerator == 0) {
+            throw new ArithmeticException("Деление на дробь с нулевым числителем");
+        }
+        return new Fraction(this.numerator * other.denominator, this.denominator * other.numerator);
+    }
+
+    @Override
+    public String toString() {
+        return numerator + "/" + denominator;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Пример использования класса Money
+        Money money1 = new Money(10.50);
+        Money money2 = new Money(5.25);
+        
+        Money sum = money1.add(money2);
+        System.out.println("Сумма: " + sum);
+        
+        Money difference = money1.subtract(money2);
+ System.out.println("Разность: " + difference);
+        
+        // Пример использования класса Fraction
+        Fraction fraction1 = new Fraction(1, 2);
+        Fraction fraction2 = new Fraction(1, 3);
+        
+        Fraction fractionSum = fraction1.add(fraction2);
+        System.out.println("Сумма дробей: " + fractionSum);
+        
+        Fraction fractionDifference = fraction1.subtract(fraction2);
+        System.out.println("Разность дробей: " + fractionDifference);
+        
+        Fraction fractionProduct = fraction1.multiply(fraction2);
+        System.out.println("Произведение дробей: " + fractionProduct);
+        
+        Fraction fractionQuotient = fraction1.divide(fraction2);
+        System.out.println("Частное дробей: " + fractionQuotient);
+    }
+}

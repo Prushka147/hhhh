@@ -1,0 +1,73 @@
+public class Point {
+    private double x;
+    private double y;
+
+    // Конструктор
+    public Point(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    // Метод для определения координатной четверти
+    public int getQuadrant() {
+        if (x > 0 && y > 0) {
+            return 1;
+        } else if (x < 0 && y > 0) {
+            return 2;
+        } else if (x < 0 && y < 0) {
+            return 3;
+        } else if (x > 0 && y < 0) {
+            return 4;
+        } else {
+            return 0; // Точка на оси
+        }
+    }
+
+    // Метод для перемещения точки
+    public void move(double deltaX, double deltaY) {
+        this.x += deltaX;
+        this.y += deltaY;
+    }
+
+    // Метод для нахождения расстояния между двумя точками
+    public double distance(Point other) {
+        return Math.sqrt(Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2));
+    }
+
+    // Метод для проверки симметричности относительно начала координат
+    public boolean isSymmetric(Point other) {
+        return (this.x == -other.x && this.y == -other.y);
+    }
+
+    // Геттеры для координат
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    // Печать информации о точке
+    @Override
+    public String toString() {
+        return "Point(" + x + ", " + y + ")";
+    }
+
+    // Тестирование класса
+    public static void main(String[] args) {
+        Point p1 = new Point(3, 4);
+        Point p2 = new Point(-3, -4);
+
+        System.out.println("Координаты p1: " + p1);
+        System.out.println("Четверть p1: " + p1.getQuadrant());
+        
+        System.out.println("Расстояние между p1 и p2: " + p1.distance(p2));
+        
+        System.out.println("Симметричны ли p1 и p2? " + p1.isSymmetric(p2));
+        
+        p1.move(-5, -6);
+        System.out.println("Новые координаты p1: " + p1);
+        System.out.println("Четверть новой p1: " + p1.getQuadrant());
+    }
+}
